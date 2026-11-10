@@ -1,0 +1,276 @@
+/* style.css - the look of the whole site AND all the animations, in one plain file.
+
+   How to read it: every block starts with a number and a title.
+   A "selector" like .window says "everything with class="window" in the HTML",
+   and the lines inside { } say how it looks.
+   Colours are set once in block 0. Change a colour there and it changes everywhere.
+
+   The design idea: black page, giant lowercase titles, sharp corners, little
+   computer "windows" with a hard coloured shadow, and one accent colour
+   that you can change with the button in the menu. */
+
+
+/* 0. COLOURS AND SIZES (change these first if you want a different look) */
+:root {
+  --bg: #050505;          /* page background (black) */
+  --paper: #f2efe9;       /* main text (warm off-white) */
+  --muted: #8d8a85;       /* softer text */
+  --line: #2a2a2e;        /* thin lines */
+  --window: #0c0c0e;      /* the inside of a window */
+  --accent: #ff9e7d;      /* the spark. The "accent" button in the menu changes this one */
+  --blue: #5b8def;        /* warm blue, used for links */
+  --sidebar-width: 15.5rem;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+
+/* 1. PAGE BASICS */
+* { box-sizing: border-box; }                 /* padding never makes boxes wider than set */
+html { scroll-behavior: smooth; }             /* menu links glide instead of jumping */
+body { margin: 0; background: var(--bg); color: var(--paper); font-family: "Space Grotesk", system-ui, sans-serif; font-size: 1.05rem; line-height: 1.6; }
+a { color: inherit; }
+h1, h2, h3 { margin: 0; line-height: 1.05; letter-spacing: -.03em; }
+h3 { font-size: 1.15rem; line-height: 1.3; letter-spacing: -.01em; }
+p { margin: .5rem 0; }
+ul { margin: 0; }
+[hidden] { display: none !important; }        /* make the "hidden" attribute always win (used by tabs) */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+::selection { background: var(--accent); color: var(--bg); }
+
+/* small helper classes used all over the HTML */
+.muted { color: var(--muted); }
+.small { font-size: .85rem; }
+.mono { font-family: var(--mono); }
+.accent { color: var(--accent); }
+.label { margin: 0 0 .5rem; font-family: var(--mono); font-size: .8rem; color: var(--accent); }   /* the "02" above a title */
+.tag { display: inline-block; margin: 0 .5rem .25rem 0; padding: .1rem .6rem; border: 1px solid var(--line); }
+.text-link { color: var(--blue); }
+
+
+/* 2. LAYOUT: slim menu on the left, content on the right */
+.main { margin-left: var(--sidebar-width); }
+.section { max-width: 62rem; margin: 0 auto; padding: 6rem 2rem; }
+.big { font-size: clamp(2.8rem, 9vw, 6.5rem); font-weight: 700; }   /* the giant section titles */
+.subtitle { max-width: 38rem; margin-top: 1.25rem; color: var(--muted); }
+.footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; padding: 2rem; border-top: 1px solid var(--line); color: var(--muted); font-family: var(--mono); font-size: .8rem; }
+
+
+/* 3. THE MENU (sidebar). On a phone it becomes a bar at the top. */
+.sidebar { position: fixed; top: 0; bottom: 0; left: 0; width: var(--sidebar-width); display: flex; flex-direction: column; gap: 2.5rem; padding: 1.75rem 1.5rem; border-right: 1px solid var(--line); background: var(--bg); z-index: 40; overflow-y: auto; }
+.sidebar > * { position: relative; z-index: 1; }                /* the menu sits on top of the floor */
+.sidebar > .floor-bg { position: fixed; top: 0; bottom: 0; left: 0; width: var(--sidebar-width); z-index: 0; }   /* the floor stays put while the page scrolls */
+.logo { font-size: 1.6rem; font-weight: 700; letter-spacing: -.04em; text-decoration: none; }
+#quest-nav { display: flex; flex-direction: column; gap: .15rem; }
+.quest-link { display: flex; gap: .75rem; padding: .3rem 0; color: var(--muted); font-family: var(--mono); font-size: .8rem; text-decoration: none; text-transform: lowercase; white-space: nowrap; transition: color .2s, padding .2s; }
+.quest-link:hover { color: var(--paper); }
+.quest-link.active { padding-left: .6rem; color: var(--accent); }   /* app.js marks the section you are reading */
+.quest-link.active::before { content: "\2192"; margin-right: -.35rem; }
+.num { opacity: .5; }
+.side-bottom { display: flex; flex-direction: column; align-items: flex-start; gap: .5rem; margin-top: auto; }
+.side-bottom p { margin: 0; }
+#mode { padding: .25rem .6rem; border: 1px solid var(--line); background: none; color: var(--paper); cursor: pointer; }
+#mode:hover { border-color: var(--accent); color: var(--accent); }
+
+
+/* 3a. THE DANCE FLOOR behind the menu: soft square tiles, each one glows very gently in turn.
+   The thin lines are drawn once as a background. The 80 tiles are the little <span>s from _sidebar.html. */
+.floor-bg { display: grid; grid-template-columns: repeat(5, 1fr); grid-auto-rows: 3.1rem; overflow: hidden; pointer-events: none;
+  background-image: linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px);
+  background-size: 3.1rem 3.1rem; }
+.floor-bg span { background: var(--accent); opacity: 0; animation: tile-glow 7s ease-in-out infinite; animation-delay: var(--d); }
+@keyframes tile-glow { 0%, 100% { opacity: 0; } 40% { opacity: .13; } }   /* .13 = very soft. Raise it for a stronger glow */
+
+/* 3b. A TOUCH OF DANCE: the little equalizer in the menu */
+.groove { display: flex; align-items: center; gap: .5rem; }
+.eq { display: inline-flex; align-items: flex-end; gap: 2px; height: .9rem; }
+.eq i { width: 3px; height: 100%; background: var(--accent); transform-origin: bottom; animation: eq .6s ease-in-out infinite alternate; }
+.eq i:nth-child(2) { animation-duration: .9s; animation-delay: -.3s; }
+.eq i:nth-child(3) { animation-duration: .75s; animation-delay: -.5s; }
+@keyframes eq { from { transform: scaleY(.2); } to { transform: scaleY(1); } }
+#groove { transition: opacity .3s; }
+
+/* 4. BUTTONS */
+.btn { display: inline-block; max-width: 100%; margin: .25rem .5rem .25rem 0; padding: .65rem 1.3rem; border: 1px solid var(--paper); background: none; color: var(--paper); font-family: var(--mono); font-size: .85rem; text-decoration: none; cursor: pointer; transition: all .2s; }
+.btn:hover { background: var(--paper); color: var(--bg); }
+.btn-solid { background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight: 500; }
+.btn-solid:hover { background: var(--paper); border-color: var(--paper); }
+.btn-off { border-color: var(--line); color: var(--muted); cursor: default; }
+.btn-off:hover { background: none; color: var(--muted); }
+
+
+/* 5. REVEAL ON SCROLL
+   Things with class="reveal" start invisible and a little low.
+   app.js adds the class "show" when they scroll into view, so they fade in. */
+.reveal { opacity: 0; translate: 0 24px; transition: opacity .7s ease, translate .7s ease; }
+.reveal.show { opacity: 1; translate: 0 0; }
+
+
+/* 6. HIGHLIGHTS (the first section) */
+.hero { padding: 5rem 0 3rem; overflow: hidden; }
+.hero-inner { max-width: 62rem; margin: 0 auto; padding: 0 2rem; }
+.display { margin-top: .5rem; font-size: clamp(4.5rem, 17vw, 12rem); font-weight: 700; letter-spacing: -.06em; line-height: .85; }
+.loves { margin-top: 1.5rem; font-size: clamp(1.3rem, 3vw, 2rem); }
+#rotator { color: var(--accent); font-weight: 500; transition: opacity .3s; }   /* app.js fades it out and in */
+.intro { max-width: 38rem; margin-top: 1.5rem; color: var(--muted); }
+.looking { max-width: 38rem; }
+.buttons { margin-top: 1.5rem; }
+
+/* a touch of dance: point at the name and every letter grooves, one after the other (the delay comes from --i).
+   The full stop keeps the beat all the time, like a metronome. */
+.display span { display: inline-block; transform-origin: bottom; }
+.display:hover span:not(.beat) { animation: groove .7s ease-in-out infinite; animation-delay: calc(var(--i) * .08s); }
+.beat { animation: beat .6s ease-in-out infinite alternate; }
+@keyframes groove { 0%, 100% { transform: translateY(0) rotate(0); } 25% { transform: translateY(-.09em) rotate(-5deg); } 75% { transform: translateY(.02em) rotate(4deg); } }
+@keyframes beat { to { transform: translateY(-.12em) scale(1.15); } }
+
+/* the ticker: the track holds the words twice and slides left by half its width, then jumps back (looks endless) */
+.marquee { overflow: hidden; margin: 4rem 0; padding: .9rem 0; border-block: 1px solid var(--line); white-space: nowrap; font-family: var(--mono); font-size: .9rem; text-transform: uppercase; letter-spacing: .1em; }
+.marquee-track { display: inline-block; animation: slide 40s linear infinite; }
+.marquee span { margin-right: 2rem; }
+@keyframes slide { to { transform: translateX(-50%); } }
+
+
+/* 7. WINDOWS: little computer-style boxes with a hard coloured shadow */
+.windows { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 2.5rem; margin-top: 3rem; }
+.hero .windows { margin-top: 0; }
+.window { border: 1px solid #3a3a40; background: var(--window); box-shadow: 6px 6px 0 var(--accent); transition: transform .2s, box-shadow .2s, opacity .7s ease, translate .7s ease; }
+.window:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 var(--accent); }
+.window-bar { display: flex; justify-content: space-between; gap: 1rem; padding: .45rem .8rem; border-bottom: 1px solid #3a3a40; background: #151518; color: var(--muted); font-family: var(--mono); font-size: .75rem; }
+.btns { letter-spacing: .25em; }
+.window-body { padding: 1.1rem 1.2rem 1.3rem; font-family: var(--mono); font-size: .85rem; line-height: 1.7; }
+.window-body p { margin: .2rem 0; }
+.window-body h3 { margin-bottom: .6rem; font-family: "Space Grotesk", sans-serif; font-size: 1.2rem; color: var(--accent); }
+.about-body { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 1.2rem; }   /* photo on the left, facts on the right; they stack on a narrow screen */
+.about-body > div:last-child { flex: 1 1 10rem; min-width: 0; }   /* the facts take the remaining width and wrap their text */
+.about-photo { flex-shrink: 0; width: 7.5rem; height: 9rem; border: 1px solid #3a3a40; object-fit: cover; }
+.about-empty { display: grid; place-items: center; padding: .5rem; background: repeating-linear-gradient(45deg, #0b0b0d, #0b0b0d 10px, #121215 10px, #121215 20px); color: var(--muted); font-size: .7rem; text-align: center; }
+.indent { padding-left: 1.2rem; }
+.key { color: var(--accent); }
+.str { color: #9be8c8; }
+
+
+/* 8. TABS (work / projects and travel / new things) */
+.tabs { display: flex; flex-wrap: wrap; gap: .5rem; margin: 2.5rem 0 1rem; }
+.tab { padding: .4rem 1rem; border: 1px solid var(--line); background: none; color: var(--muted); font-family: var(--mono); font-size: .8rem; cursor: pointer; transition: all .2s; }
+.tab:hover { color: var(--paper); border-color: var(--paper); }
+.tab.on { background: var(--paper); border-color: var(--paper); color: var(--bg); }
+
+
+/* 9. WORK AND PROJECTS: a list of lines. Each one opens (it is a <details> element). */
+.list { border-top: 1px solid var(--line); }
+.item { border-bottom: 1px solid var(--line); }
+.item summary { display: grid; grid-template-columns: 9rem 1fr 2rem; gap: 1rem; align-items: baseline; padding: 1.5rem 0; cursor: pointer; list-style: none; }
+.item summary::-webkit-details-marker { display: none; }   /* hide the default little triangle */
+.item .t { font-size: clamp(1.2rem, 2.6vw, 1.8rem); font-weight: 500; letter-spacing: -.02em; line-height: 1.25; transition: color .2s; }
+.item summary:hover .t { color: var(--accent); }
+.plus { font-family: var(--mono); font-size: 1.4rem; text-align: right; color: var(--accent); }
+.plus::before { content: "+"; }
+.item[open] .plus::before { content: "\2212"; }
+.more { padding: 0 0 2rem 10rem; }
+.bullets { margin: 0 0 1rem; padding-left: 1.1rem; color: var(--muted); }
+.bullets li { margin-bottom: .4rem; }
+.bullets li::marker { color: var(--accent); }
+
+
+/* 10. CAMERA ROLL: polaroids in a row you can swipe sideways */
+.strip { display: flex; gap: 2rem; padding: 2.5rem .5rem 3rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+.polaroid { flex: 0 0 13rem; scroll-snap-align: start; margin: 0; padding: .6rem .6rem 1rem; background: #f7f3ec; color: #111; box-shadow: 0 10px 30px rgba(0, 0, 0, .7); transform: rotate(2deg); transition: transform .3s; }
+.polaroid:nth-child(even) { transform: rotate(-2.5deg); }
+.polaroid:hover { transform: rotate(0) scale(1.05); }   /* straightens when you point at it */
+.polaroid img, .photo-placeholder { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+.photo-placeholder { display: grid; place-items: center; padding: .5rem; background: repeating-linear-gradient(45deg, #ddd5c8, #ddd5c8 8px, #e8e1d5 8px, #e8e1d5 16px); color: #555; font-family: var(--mono); font-size: .7rem; text-align: center; }
+.polaroid figcaption { margin-top: .75rem; text-align: center; font-family: "Caveat", cursive; font-size: 1.4rem; }
+
+
+/* 11. GERMAN: a progress bar made of five boxes + a log of milestones */
+.track { display: flex; margin: 3rem 0; padding: 0; list-style: none; font-family: var(--mono); }
+.level { flex: 1; display: flex; flex-direction: column; gap: .1rem; margin-left: -1px; padding: .9rem; border: 1px solid #3a3a40; color: var(--muted); }
+.level span { font-size: .75rem; }
+.level.done { background: #14213f; color: #b9d0ff; border-color: var(--blue); }
+.level.current { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.log p { margin: 0; padding: .7rem 0; border-bottom: 1px dashed var(--line); font-family: var(--mono); font-size: .9rem; }
+
+
+/* 12. VIDEOS: picture boxes with a play button */
+.video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 2.5rem; margin-top: 3rem; }
+.video { margin: 0; }
+.shot { display: grid; place-items: center; align-content: center; gap: .5rem; aspect-ratio: 16 / 9; border: 1px dashed #3a3a40; background: repeating-linear-gradient(45deg, #0b0b0d, #0b0b0d 12px, #121215 12px, #121215 24px); color: var(--accent); font-size: 2.2rem; text-decoration: none; transition: all .2s; }
+a.shot:hover, .video:hover .shot { border-color: var(--accent); background: var(--accent); color: var(--bg); }
+.shot span { color: var(--muted); }
+.video:hover .shot span { color: var(--bg); }
+.video figcaption { margin-top: 1rem; }
+.video h3 { font-size: 1.4rem; }
+
+
+/* 13. SCHOOL: three names in a row, joined by arrows */
+.path { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 2rem 1.5rem; margin-top: 3rem; }
+.school { flex: 1 1 14rem; }
+.school h3 { margin: .25rem 0; font-size: clamp(1.6rem, 3.2vw, 2.4rem); }
+.arrow { padding-top: 1.7rem; color: var(--accent); font-size: 1.6rem; }
+
+
+/* 14. OFF DUTY: giant outline words that fill with colour when you point at them */
+.big-list { margin-top: 3rem; border-top: 1px solid var(--line); }
+.big-row { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: center; padding: 1.25rem 0; border-bottom: 1px solid var(--line); }
+.big-word { margin: 0; font-size: clamp(2.6rem, 8vw, 5.5rem); font-weight: 700; letter-spacing: -.04em; line-height: 1; color: transparent; -webkit-text-stroke: 1px var(--paper); transition: all .3s; }
+.big-word span { display: inline-block; transform-origin: bottom; }
+.big-row:hover .big-word span { animation: groove .8s ease-in-out infinite; animation-delay: calc(var(--i) * .09s); }   /* the word "dance" sways */
+.big-row:hover .big-word { color: var(--accent); -webkit-text-stroke-color: var(--accent); padding-left: 1rem; }
+
+
+/* 15. GUESTBOOK (write to me): a notepad window with a form and the entries */
+.private-links { margin: 1.5rem 0 3rem; color: var(--muted); }
+.notepad { max-width: 44rem; }
+.comment-form label { display: block; margin-top: .9rem; color: var(--muted); }
+.comment-form label:first-child { margin-top: 0; }
+input, textarea { display: block; width: 100%; margin-top: .25rem; padding: .55rem .7rem; border: 1px solid #3a3a40; background: var(--bg); color: var(--paper); font: inherit; border-radius: 0; }
+input:focus, textarea:focus { outline: none; border-color: var(--accent); }
+.comment-form .btn { margin-top: .75rem; }
+.hp { position: absolute; left: -9999px; }   /* the honeypot: hidden off-screen */
+.note { margin: 1rem 0 0; padding: .6rem .8rem; border: 1px solid; }
+.note.ok { border-color: var(--accent); color: var(--accent); }
+.note.error { border-color: #ff6b6b; color: #ff6b6b; }
+.comment-count { margin: 2rem 0 .5rem; padding-top: 1.25rem; border-top: 1px dashed var(--line); color: var(--muted); }
+.entry { padding: .9rem 0; border-bottom: 1px dashed var(--line); animation: entry-in .5s ease; }
+.entry p { margin: .15rem 0; }
+.comment-text { white-space: pre-line; overflow-wrap: anywhere; }   /* keep the visitor's line breaks */
+.delete { margin-left: .75rem; color: #ff6b6b; }
+.empty { padding: 1rem 0; }
+@keyframes entry-in { from { opacity: 0; transform: translateY(8px); } }
+
+
+/* 16. THE DOT THAT FOLLOWS YOUR MOUSE (app.js, job 5) */
+#cursor { position: fixed; top: 0; left: 0; z-index: 100; width: 1rem; height: 1rem; margin: -.5rem 0 0 -.5rem; border: 2px solid var(--accent); border-radius: 50%; pointer-events: none; opacity: 0; transition: width .2s, height .2s, margin .2s, background .2s, opacity .3s; }
+#cursor.big { width: 2.6rem; height: 2.6rem; margin: -1.3rem 0 0 -1.3rem; background: rgba(255, 255, 255, .12); }
+
+
+/* 17. PHONES (screens narrower than 768px)
+   The menu becomes a bar at the top and swipes sideways. */
+@media (max-width: 768px) {
+  .main { margin-left: 0; }
+  .sidebar { position: sticky; width: auto; bottom: auto; flex-direction: row; align-items: center; gap: 1rem; padding: .6rem 1rem; border-right: 0; border-bottom: 1px solid var(--line); overflow: visible; }
+  .side-bottom, .floor-bg { display: none; }      /* keep the phone bar small and calm */
+  .logo { font-size: 1.2rem; }
+  #quest-nav { flex-direction: row; gap: .75rem; overflow-x: auto; scrollbar-width: none; }
+  #quest-nav::-webkit-scrollbar { display: none; }
+  .quest-link.active { padding-left: 0; }
+  .quest-link.active::before { content: none; }
+  .section { padding: 4rem 1rem; scroll-margin-top: 4rem; }  /* room for the sticky bar when a link jumps here */
+  .hero { padding: 3rem 0 2rem; scroll-margin-top: 4rem; }
+  .hero-inner { padding: 0 1rem; }
+  .item summary { grid-template-columns: 1fr 2rem; }
+  .item summary > :first-child { grid-column: 1 / -1; }
+  .more { padding-left: 0; }
+  .big-row { grid-template-columns: 1fr; gap: .5rem; }
+  .level span { display: none; }
+  .arrow { display: none; }
+  #cursor { display: none; }
+}
+
+
+/* ACCESSIBILITY: if a visitor's device is set to "reduce motion", switch all
+   animation off. Some people get dizzy from moving pages. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .reveal { opacity: 1; translate: none; }
+}

@@ -1,0 +1,55 @@
+{#
+  index.html = the whole website. It is one page made of:
+    the <head> (title, fonts, CSS, JavaScript), the sidebar, nine sections, a footer.
+  Each section lives in its own small file in templates/sections/.
+  To change a section, open its file. To reorder sections, move the lines below
+  (and keep QUESTS in content.py in the same order, because it builds the sidebar menu).
+
+  Comments written like this one (curly bracket + hash) are only for you.
+  The browser never sees them.
+#}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Without this line phones show a tiny zoomed-out desktop page -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ content.SITE.name }} | Data &amp; ML Engineer</title>
+  <!-- What Google and LinkedIn show when your link is shared -->
+  <meta name="description" content="{{ content.SITE.tagline }}">
+  <meta property="og:title" content="{{ content.SITE.name }}">
+  <meta property="og:description" content="{{ content.SITE.tagline }}">
+
+  <!-- Fonts: Space Grotesk (text and big titles), JetBrains Mono (the little computer-style bits), Caveat (handwriting under photos) -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+  <!-- Our own look and our own JavaScript -->
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+  <!-- HTMX: lets the contact form send its message without reloading the page -->
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+</head>
+<body>
+
+  {% include "_sidebar.html" %}
+
+  <main class="main">
+    {% include "sections/highlights.html" %}
+    {% include "sections/work.html" %}
+    {% include "sections/lookbook.html" %}
+    {% include "sections/corner.html" %}
+    {% include "sections/german.html" %}
+    {% include "sections/videos.html" %}
+    {% include "sections/education.html" %}
+    {% include "sections/offduty.html" %}
+    {% include "sections/contact.html" %}
+
+    <footer class="footer">
+      <span>&copy; {{ content.SITE.name }}</span>
+      <span>made with python &amp; too much coffee</span>
+    </footer>
+  </main>
+
+  <!-- A small dot that follows your mouse (app.js, job 5). Hidden on phones. -->
+  <div id="cursor"></div>
+</body>
+</html>

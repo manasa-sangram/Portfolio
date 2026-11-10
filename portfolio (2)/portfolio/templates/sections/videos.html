@@ -1,0 +1,22 @@
+{#
+  06 Videos. Each video is an entry of VIDEOS in content.py.
+  Paste your Loom link into "url" there: the picture then becomes a link.
+  While "url" is empty it shows "coming soon".
+#}
+<section id="videos" class="section">
+  <p class="label">06</p>
+  <h2 class="big">videos<span class="accent">.</span></h2>
+  <p class="subtitle">i learn by explaining. short videos where i teach what i just learnt, starting with ai agents.</p>
+
+  <div class="video-grid">
+    {% for v in content.VIDEOS %}
+    <figure class="video reveal">
+      {% if v.url %}<a class="shot" href="{{ v.url }}">&#9654;</a>{% else %}<div class="shot">&#9654;<span class="mono small">coming soon</span></div>{% endif %}
+      <figcaption>
+        <h3>{{ v.title | lower }}</h3>
+        <p class="muted">{{ v.text }}</p>
+      </figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+</section>

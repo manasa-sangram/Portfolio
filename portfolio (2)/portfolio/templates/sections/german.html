@@ -1,0 +1,27 @@
+{#
+  05 My German journey, drawn like a progress bar (A1 to C1).
+  Each level has a "state" in content.py: done, current, next or later.
+  The state becomes a CSS class, so style.css colours it. When you level up,
+  change the states in content.py. Nothing else to edit.
+#}
+<section id="german" class="section">
+  <p class="label">05</p>
+  <h2 class="big">deutsch<span class="accent">.</span></h2>
+  <p class="subtitle">{{ content.GERMAN.intro }}</p>
+
+  <ol class="track reveal">
+    {% for l in content.GERMAN.levels %}
+    <li class="level {{ l.state }}">
+      <strong>{{ l.code }}{% if l.state == "done" %} &#10003;{% elif l.state == "current" %} &#9654;{% endif %}</strong>
+      <span>{{ l.name | lower }}</span>
+    </li>
+    {% endfor %}
+  </ol>
+
+  <p class="mono small muted">milestones.log</p>
+  <div class="log">
+    {% for m in content.GERMAN.milestones %}
+    <p class="reveal"><span class="accent">[{{ m.when }}]</span> {{ m.text }}</p>
+    {% endfor %}
+  </div>
+</section>

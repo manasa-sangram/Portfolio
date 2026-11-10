@@ -1,0 +1,26 @@
+{#
+  _comments.html = the guestbook entries. It is used in two places:
+    1. inside the page (sections/contact.html includes it), and
+    2. as the answer to a new entry: main.py sends back just this piece and
+       HTMX swaps it into the page, so the page never reloads.
+  Variables it uses: comments (list), note + note_kind (optional message), admin_key (only for you).
+  Jinja escapes visitors' text automatically, so nobody can inject HTML or scripts.
+#}
+{% if note %}<p class="note {{ note_kind }}">{{ note }}</p>{% endif %}
+
+<p class="comment-count">{{ comments | length }} entr{% if comments | length == 1 %}y{% else %}ies{% endif %}</p>
+
+{% if comments %}
+<div class="comment-list">
+  {% for comment in comments %}
+  <article class="entry">
+    <p class="entry-head"><span class="accent">[{{ comment.created | lower }}] entry #{{ comment.id }}</span>
+      {% if admin_key %}<a class="delete" href="/delete/{{ comment.id }}?key={{ admin_key }}">delete</a>{% endif %}</p>
+    <p class="comment-text">{{ comment.message }}</p>
+    <p class="entry-name muted">- {{ comment.name }}</p>
+  </article>
+  {% endfor %}
+</div>
+{% else %}
+<p class="muted empty">no entries yet. be the first to say hi :)</p>
+{% endif %}

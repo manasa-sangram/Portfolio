@@ -1,0 +1,53 @@
+{#
+  09 Write to me, built like a guestbook (a comment section).
+  Visitors write a name and a message. main.py saves it in the database and the
+  entry appears in the window. Everyone can read the entries.
+
+  HTMX attributes on the form (they replace a lot of JavaScript):
+    hx-post="/comments"        send the form to the add_comment function in main.py
+    hx-target="#comments"      put the answer into the box with id="comments"
+    hx-swap="innerHTML"        replace what is inside that box
+    hx-on::after-request       when the answer has arrived, empty the form
+  So the page does not reload; the new entry just appears.
+#}
+<section id="contact" class="section">
+  <p class="label">09</p>
+  <h2 class="big">write to me<span class="accent">.</span></h2>
+  <p class="subtitle">leave a note, say hi, ask a question. it is public, so please keep it kind. i'm open to data engineer and machine learning engineer roles.</p>
+
+  <p class="mono small private-links">prefer to write privately?
+    <a href="{{ content.SITE.linkedin }}">linkedin</a> /
+    <a href="{{ content.SITE.github }}">github</a> /
+    <a href="{{ content.SITE.substack }}">substack</a> /
+    <a href="{{ content.SITE.loom }}">loom</a>
+    {% if static_exists(content.SITE.resume_file) %}/ <a href="/static/{{ content.SITE.resume_file }}">resume.pdf</a>{% endif %}
+  </p>
+
+  <div class="window notepad">
+    <div class="window-bar"><span>guestbook.txt - notepad</span><span class="btns">_ &#9633; &times;</span></div>
+    <div class="window-body">
+
+      <form class="comment-form" hx-post="/comments" hx-target="#comments" hx-swap="innerHTML" hx-on::after-request="this.reset()">
+        <label for="name">your name</label>
+        <input id="name" name="name" required maxlength="40" placeholder="e.g. alex">
+
+        <label for="message">your note</label>
+        <textarea id="message" name="message" rows="3" required minlength="2" maxlength="500" placeholder="write something nice..."></textarea>
+
+        <p class="muted small">your name and note are shown publicly. please do not share private details.</p>
+
+        {# The honeypot: people cannot see this field, spam bots fill it in (see main.py) #}
+        <div class="hp" aria-hidden="true">
+          <label>Leave this empty <input name="website" tabindex="-1" autocomplete="off"></label>
+        </div>
+
+        <button class="btn btn-solid" type="submit">add entry</button>
+      </form>
+
+      {# the entries (the list lives in its own file so main.py can send it back after a new entry) #}
+      <div id="comments">
+        {% include "_comments.html" %}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,46 @@
+{#
+  _sidebar.html = the slim menu with a soft dance floor behind it. On a laptop it stays on the left side.
+  On a phone it becomes a bar at the top (style.css hides the extra parts there).
+  app.js marks the link of the section you are reading (class "active"),
+  shows the time in Rostock, and changes the accent colour when you press the button.
+#}
+<aside class="sidebar">
+
+  {# THE DANCE FLOOR: a grid of 80 tiles behind the menu (5 per row). Each tile glows very softly,
+     one after another, so the light travels across the floor. --d is the tile's delay: column + row, times 0.35 seconds.
+     style.css draws the tiles (block 3). Pure HTML + CSS, no JavaScript. #}
+  <div class="floor-bg" aria-hidden="true">
+    {% for n in range(80) %}<span style="--d: {{ ((n % 5) + (n // 5)) * 0.35 }}s"></span>{% endfor %}
+  </div>
+
+  {# My name. It is a link back to the top of the page. #}
+  <a class="logo" href="#highlights">{{ content.SITE.short_name | lower }}.</a>
+
+  {# The menu. One link per section, made from QUESTS in content.py.
+     data-quest holds the id of the section the link jumps to. #}
+  <nav id="quest-nav">
+    {% for q in content.QUESTS %}
+    <a class="quest-link" href="#{{ q.id }}" data-quest="{{ q.id }}">
+      <span class="num">0{{ loop.index }}</span>
+      <span>{{ q.label }}</span>
+    </a>
+    {% endfor %}
+  </nav>
+
+  <div class="side-bottom">
+    {# NOW GROOVING: the dance styles from HOBBIES in content.py take turns (app.js, job 5) #}
+    {% for h in content.HOBBIES if h.title == "Dance" %}
+    <p class="mono small groove"><span class="eq"><i></i><i></i><i></i></span> now grooving: <span id="groove" class="accent" data-words="{{ h.tags | join('|') | lower }}">{{ h.tags[0] | lower }}</span></p>
+    {% endfor %}
+    <p class="mono small muted">rostock <span id="clock">--:--</span></p>
+    <button id="mode" type="button" class="mono small">accent: peach</button>
+    <p class="mono small">
+      <a href="{{ content.SITE.linkedin }}">linkedin</a> /
+      <a href="{{ content.SITE.github }}">github</a> /
+      <a href="{{ content.SITE.substack }}">substack</a>
+    </p>
+    {% if static_exists(content.SITE.resume_file) %}
+    <a class="mono small" href="/static/{{ content.SITE.resume_file }}">resume.pdf</a>
+    {% endif %}
+  </div>
+</aside>

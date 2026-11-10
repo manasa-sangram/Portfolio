@@ -1,0 +1,59 @@
+{#
+  02 Work and Projects, two tabs in one section.
+  Tabs (app.js, job 3): a button and a panel with the same data-group belong together.
+  Each entry is a <details> element: the browser opens and closes it by itself, no JavaScript needed.
+#}
+<section id="work" class="section">
+  <p class="label">02</p>
+  <h2 class="big">work<span class="accent">.</span></h2>
+  <p class="subtitle">where i have worked and what i have built. click a line to open it.</p>
+
+  <div class="tabs">
+    <button class="tab on" data-group="work" data-tab="jobs">work ({{ content.WORK | length }})</button>
+    <button class="tab" data-group="work" data-tab="projects">projects ({{ content.PROJECTS | length }})</button>
+  </div>
+
+  {# ---------- TAB 1: WORK ---------- #}
+  <div class="panel list" data-group="work" data-panel="jobs">
+    {% for w in content.WORK %}
+    <details class="item reveal" {% if loop.first %}open{% endif %}>
+      <summary>
+        <span class="mono small muted">{{ w.dates }}{% if w.current %} <span class="accent">&bull; now</span>{% endif %}</span>
+        <span class="t">{{ w.role }}<br><span class="muted small">{{ w.where }}</span></span>
+        <span class="plus"></span>
+      </summary>
+      <div class="more">
+        <ul class="bullets">
+          {% for b in w.bullets %}<li>{{ b }}</li>{% endfor %}
+        </ul>
+        {# links: a real button if you filled in the url, otherwise a grey "coming soon" label #}
+        {% for l in w.links %}
+          {% if l.url %}
+            <a class="btn btn-solid" href="{{ l.url }}">{{ l.label }}</a>
+          {% else %}
+            <span class="btn btn-off">{{ l.label }} (coming soon)</span>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </details>
+    {% endfor %}
+  </div>
+
+  {# ---------- TAB 2: PROJECTS (hidden until you click its tab) ---------- #}
+  <div class="panel list" data-group="work" data-panel="projects" hidden>
+    {% for p in content.PROJECTS %}
+    <details class="item reveal" {% if loop.first %}open{% endif %}>
+      <summary>
+        <span class="mono small muted">0{{ loop.index }}</span>
+        <span class="t">{{ p.name }}</span>
+        <span class="plus"></span>
+      </summary>
+      <div class="more">
+        <p class="muted">{{ p.text }}</p>
+        <p class="mono small">{% for s in p.stack %}<span class="tag">{{ s | lower }}</span>{% endfor %}</p>
+        {% if p.link %}<a class="text-link" href="{{ p.link }}">view code &rarr;</a>{% endif %}
+      </div>
+    </details>
+    {% endfor %}
+  </div>
+</section>

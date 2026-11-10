@@ -1,0 +1,21 @@
+{#
+  07 Education: Cluny Convent -> SJCIT -> University of Rostock.
+  Each school is an entry of EDUCATION in content.py. They run left to right with arrows.
+#}
+<section id="education" class="section">
+  <p class="label">07</p>
+  <h2 class="big">school<span class="accent">.</span></h2>
+  <p class="subtitle">the path so far.</p>
+
+  <div class="path">
+    {% for e in content.EDUCATION %}
+    <div class="school reveal">
+      <p class="mono small accent">{{ e.years }}</p>
+      <h3>{{ e.school }}</h3>
+      <p class="muted">{{ e.what }}</p>
+      {% if e.note %}<p class="muted small">{{ e.note }}</p>{% endif %}
+    </div>
+    {% if not loop.last %}<span class="arrow">&rarr;</span>{% endif %}
+    {% endfor %}
+  </div>
+</section>

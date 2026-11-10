@@ -1,0 +1,16 @@
+{#
+  _photos.html = draws a list of polaroid photos.
+  It is used twice in lookbook.html (once for Travel, once for New things).
+  Before including it, lookbook.html sets a variable called "photos".
+  If a photo file is missing in static/photos/, a coloured placeholder is shown.
+#}
+{% for p in photos %}
+<figure class="polaroid">
+  {% if static_exists('photos/' ~ p.file) %}
+    <img src="/static/photos/{{ p.file }}" alt="{{ p.caption }}" loading="lazy">
+  {% else %}
+    <div class="photo-placeholder">add static/photos/{{ p.file }}</div>
+  {% endif %}
+  <figcaption>{{ p.caption }}</figcaption>
+</figure>
+{% endfor %}

@@ -1,0 +1,24 @@
+{#
+  04 My Corner. One "window" for each entry of CORNER in content.py:
+  Substack, podcasts, books, what excites me, music, lessons.
+  To add a window, add an entry in content.py. This file does not change.
+#}
+<section id="corner" class="section">
+  <p class="label">04</p>
+  <h2 class="big">my corner<span class="accent">.</span></h2>
+  <p class="subtitle">what i read, hear, write and learn.</p>
+
+  <div class="windows">
+    {% for item in content.CORNER %}
+    <div class="window reveal">
+      <div class="window-bar"><span>{{ item.file }}</span><span class="btns">_ &#9633; &times;</span></div>
+      <div class="window-body">
+        <h3>{{ item.title | lower }}</h3>
+        {% if item.text %}<p class="muted">{{ item.text }}</p>{% endif %}
+        {% for e in item.entries %}<p>&gt; {{ e }}</p>{% endfor %}
+        {% if item.link %}<p><a class="text-link" href="{{ item.link }}">{{ item.link_label | lower }} &rarr;</a></p>{% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>

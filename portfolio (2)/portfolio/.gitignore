@@ -1,0 +1,6 @@
+__pycache__/
+.venv/
+.env
+# the comments database holds visitors' names and comments: never publish it
+comments.db
+messages.jsonl

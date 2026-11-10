@@ -1,0 +1,30 @@
+{#
+  03 Personal Lookbook: a "camera roll". Two tabs of polaroid photos in a row you can swipe sideways.
+  Put your photos in static/photos/ and list them in content.py
+  (LOOKBOOK_TRAVEL and LOOKBOOK_NEW).
+#}
+<section id="lookbook" class="section">
+  <p class="label">03</p>
+  <h2 class="big">camera roll<span class="accent">.</span></h2>
+  <p class="subtitle">snapshots from my travels and the new things i am trying. swipe sideways.</p>
+
+  <div class="tabs">
+    <button class="tab on" data-group="look" data-tab="travel">travel</button>
+    <button class="tab" data-group="look" data-tab="new">new things i'm trying</button>
+  </div>
+
+  <div class="panel strip" data-group="look" data-panel="travel">
+    {% set photos = content.LOOKBOOK_TRAVEL %}
+    {% include "_photos.html" %}
+  </div>
+
+  <div class="panel strip" data-group="look" data-panel="new" hidden>
+    {% set photos = content.LOOKBOOK_NEW %}
+    {% include "_photos.html" %}
+  </div>
+
+  <div class="panel strip" data-group="look" data-panel="new" hidden>
+    {% set photos = content.COMMUNITIES %}
+    {% include "_photos.html" %}
+  </div>
+</section>

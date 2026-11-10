@@ -1,0 +1,22 @@
+{#
+  08 When I'm not working. One giant word for each entry of HOBBIES in content.py.
+  The word is an outline and fills with colour when you point at it.
+#}
+<section id="offduty" class="section">
+  <p class="label">08</p>
+  <h2 class="big">off duty<span class="accent">.</span></h2>
+  <p class="subtitle">what keeps me going outside of work.</p>
+
+  <div class="big-list">
+    {% for h in content.HOBBIES %}
+    <div class="big-row reveal">
+      {# the word "dance" is split into letters so they can sway one after another when you hover #}
+      <p class="big-word">{% if h.title | lower == "dance" %}{% for letter in h.title | lower %}<span style="--i: {{ loop.index0 }}">{{ letter }}</span>{% endfor %}{% else %}{{ h.title | lower }}{% endif %}</p>
+      <div>
+        <p class="muted">{{ h.text }}</p>
+        {% if h.tags %}<p class="mono small">{% for t in h.tags %}<span class="tag">{{ t | lower }}</span>{% endfor %}</p>{% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>

@@ -1,0 +1,71 @@
+{#
+  01 Highlights. The first thing visitors see:
+  a giant name, a moving ticker, a short intro and two "windows" (small computer-style boxes).
+#}
+<section id="highlights" class="hero">
+  <div class="hero-inner">
+    <p class="mono small muted">{{ content.HIGHLIGHTS.welcome }}</p>
+    {# Each letter is its own <span> with a number (--i), so style.css can move them one after another when you hover. #}
+    <h1 class="display">{% for letter in content.SITE.short_name | lower %}<span style="--i: {{ loop.index0 }}">{{ letter }}</span>{% endfor %}<span class="accent beat">.</span></h1>
+
+    {# The words after "i like" change every few seconds (app.js, job 2).
+       data-words holds all the words, separated by "|". #}
+    <p class="loves">i like
+      <span id="rotator" data-words="{{ content.HIGHLIGHTS.loves | join('|') }}">{{ content.HIGHLIGHTS.loves[0] }}</span>
+    </p>
+
+    <p class="intro">{{ content.HIGHLIGHTS.intro }}</p>
+    <p class="looking">{{ content.HIGHLIGHTS.looking_for }}</p>
+
+    <div class="buttons">
+      <a class="btn btn-solid" href="#work">see my work</a>
+      <a class="btn" href="#contact">write to me</a>
+      {% if static_exists(content.SITE.resume_file) %}
+      <a class="btn" href="/static/{{ content.SITE.resume_file }}">resume.pdf</a>
+      {% endif %}
+    </div>
+  </div>
+
+  {# THE TICKER: the loves list scrolls past forever. It is written twice so the loop has no gap. #}
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      {% for round in range(2) %}{% for word in content.HIGHLIGHTS.loves %}<span>{{ word }}</span><span class="accent">&#10022;</span>{% endfor %}{% endfor %}
+    </div>
+  </div>
+
+  <div class="hero-inner">
+    <div class="windows">
+
+      {# WINDOW 1: key facts, written like a text file #}
+      <div class="window reveal">
+        <div class="window-bar"><span>about.txt</span><span class="btns">_ &#9633; &times;</span></div>
+        <div class="window-body about-body">
+          {# My photo. Save yours as static/photos/me.jpg and it shows up here by itself. #}
+          {% if static_exists('photos/me.jpg') %}
+            <img class="about-photo" src="/static/photos/me.jpg" alt="Photo of {{ content.SITE.short_name }}">
+          {% else %}
+            <div class="about-photo about-empty">your photo<br>me.jpg</div>
+          {% endif %}
+          <div>
+            {% for s in content.HIGHLIGHTS.stats %}
+            <p><span class="muted">{{ s.label | lower }}:</span> {{ s.value }}</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      {# WINDOW 2: skills, written like a little JSON file (a data person's joke) #}
+      <div class="window reveal">
+        <div class="window-bar"><span>skills.json</span><span class="btns">_ &#9633; &times;</span></div>
+        <div class="window-body">
+          <p>{</p>
+          {% for g in content.HIGHLIGHTS.skills %}
+          <p class="indent"><span class="key">"{{ g.group | lower }}"</span>: [{% for item in g["items"] %}<span class="str">"{{ item | lower }}"</span>{% if not loop.last %}, {% endif %}{% endfor %}]{% if not loop.last %},{% endif %}</p>
+          {% endfor %}
+          <p>}</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
