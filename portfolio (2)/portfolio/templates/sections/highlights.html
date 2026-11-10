@@ -42,7 +42,7 @@
         <div class="window-body about-body">
           {# My photo. Save yours as static/photos/me.jpg and it shows up here by itself. #}
           {% if static_exists('photos/me.jpg') %}
-            <img class="about-photo" src="/static/photos/me.jpg" alt="Photo of {{ content.SITE.short_name }}">
+            <img class="about-photo" src="static/photos/me.jpg" alt="Photo of {{ content.SITE.short_name }}">
           {% else %}
             <div class="about-photo about-empty">your photo<br>me.jpg</div>
           {% endif %}

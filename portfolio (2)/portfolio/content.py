@@ -165,24 +165,19 @@ PROJECTS = [
 # "file" = a file name inside static/photos/. Until the file exists, a coloured
 # placeholder is shown. Add or remove entries freely.
 # ---------------------------------------------------------------------------
-LOOKBOOK_TRAVEL = [
+LOOKBOOK_MORE_ME = [
     {"file": "munich.jpg", "caption": "Munich 2025"},
-    {"file": "host.jpg", "caption": "I like hosting events"},
+    {"file": "host2.jpg", "caption": "I like hosting events"},
     {"file": "locking.jpg", "caption": " Dance club"},
     {"file": "dance.jpg", "caption": "My dance floor"},
 ]
 LOOKBOOK_NEW = [
     {"file": "kashmir.webp", "caption": "Kashmir trip 2024"},
-    {"file": "new2.jpg", "caption": "TODO new thing"},
-    {"file": "new3.jpg", "caption": "TODO new thing"},
-    {"file": "new4.jpg", "caption": "TODO new thing"},
+    {"file": "volunteer.jpg", "caption": "I was a part of U&I volunteer team"},
+    {"file": "mangalore.webp", "caption": "Mangalore 2023"},
+    {"file": "solo-trip.jpg", "caption": "My very first solo trip to Vienna"},
 ]
-COMMUNITIES = [
-    {"file": "kashmir.webp", "caption": "Kashmir trip 2024"},
-    {"file": "new2.jpg", "caption": "TODO new thing"},
-    {"file": "new3.jpg", "caption": "TODO new thing"},
-    {"file": "new4.jpg", "caption": "TODO new thing"},
-]
+
 
 # ---------------------------------------------------------------------------
 # 4. My Corner: Substack, podcasts, books, what excites me, music, lessons
@@ -193,13 +188,13 @@ CORNER = [
      "text": "My writing lives on Substack. I write about Book reviews and what i notice in my day to day life.",
      "link": SITE["substack"], "link_label": "Read on Substack"},
     {"file": "podcasts.txt", "title": "Podcasts I listen to",
-     "entries": ["https://www.youtube.com/watch?v=4Vz6L8B73i4", "https://www.youtube.com/@theschooloflifetv"]},
+     "entries": ["Raj Shamani", "The School of Life"]},
     {"file": "books.txt", "title": "Books I read",
      "entries": ["The World I see - Dr Fei Fei Li", "White Nights - Fyodor Dostoyevsky", "Norweigeen Wood - Haruki Murakami"]},
     {"file": "curious_about.txt", "title": "New things that excite me",
      "entries": ["Neuroplasticity", "Game engines"]},
-    {"file": "music.txt", "title": "Music I listen to",
-     "entries": ["https://open.spotify.com/track/0wHYuCTWPntEgWiUVED4wB?si=xXz8fBVvS4KRHOVKsevvEQ&utm_source=native-share-menu"]},
+    {"file": "music.txt", "title": "Current Faourite Artists",
+     "entries": ["Anuv Jain" , "Micheal Jackson" ,"Sanjit Hegde"]},
     {"file": "lessons_2026.txt", "title": "Lessons I learnt this year",
      "entries": ["You write your own story", "Be grateful"]},
 ]
@@ -210,7 +205,7 @@ CORNER = [
 # "state" can be: done, current, next, later
 # ---------------------------------------------------------------------------
 GERMAN = {
-    "intro": "TODO: tell the story. Why you started learning German, what was hardest, what helped.",
+    "intro": "Deutschland ist eine schönes Land.Ich lerne Deutsch, um mich besser zu verständigen und die Kultur zu verstehen.",
     "levels": [
         {"code": "A1", "name": "Beginner", "state": "done"},
         {"code": "A2", "name": "Elementary", "state": "done"},
@@ -218,34 +213,34 @@ GERMAN = {
         {"code": "B2", "name": "Upper-intermediate", "state": "next"},
         {"code": "C1", "name": "Advanced", "state": "later"},
     ],
-    "milestones": [
-        {"when": "TODO: date", "text": "TODO: a milestone, e.g. first conversation, passed an exam"},
-        {"when": "TODO: date", "text": "TODO: another milestone"},
-        {"when": "TODO: date", "text": "TODO: another milestone"},
-    ],
+    # "milestones": [
+    #     {"when": "TODO: date", "text": "TODO: a milestone, e.g. first conversation, passed an exam"},
+    #     {"when": "TODO: date", "text": "TODO: another milestone"},
+    #     {"when": "TODO: date", "text": "TODO: another milestone"},
+    # ],
 }
 
 # ---------------------------------------------------------------------------
 # 6. Videos. Leave "url" empty and the row shows "Coming soon".
 # ---------------------------------------------------------------------------
-VIDEOS = [
-    {
-        "title": "AI agents, explained",
-        "text": "I learnt about AI agents and explained them in my own words.",
-        "url": "",  # TODO: paste your Loom link here
-    },
-    {
-        "title": "More Loom videos",
-        "text": "New self-explaining videos will land here.",
-        "url": "",
-    },
-]
+# VIDEOS = [
+#     {
+#         "title": "AI agents, explained",
+#         "text": "I learnt about AI agents and explained them in my own words.",
+#         "url": "",  # TODO: paste your Loom link here
+#     },
+#     {
+#         "title": "More Loom videos",
+#         "text": "New self-explaining videos will land here.",
+#         "url": "",
+#     },
+# ]
 
 # ---------------------------------------------------------------------------
 # 7. Education: Cluny Convent -> SJCIT -> University of Rostock
 # ---------------------------------------------------------------------------
 EDUCATION = [
-    {"school": "Cluny Convent", "what": "TODO: e.g. school", "years": "2017"},
+    {"school": "Cluny Convent", "what": "Played Basketball for 4 years and was the Sports Captain in 2017", "years": "2017"},
     {"school": "SJCIT", "what": "Bachelors of Engineering - Computer Science", "years": "2019 - 2023"},
     {"school": "University of Rostock", "what": "M.Sc. Computer Science (AI focus)", "years": "Oct 2024 - present",
      "note": "Focus: machine learning, advanced software architectures, computer vision."},
