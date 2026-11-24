@@ -91,8 +91,8 @@ WORK = [
         "dates": "Sep 2026 - present",
         "current": True,  # shows "Current" next to the dates
         "bullets": [
-            "The Oceanographic sensors collect high frequency data (CTD) which is prone to errors",
-            "I am building a machine learning pipeline to detect these errors and anamolies using Isolation Forests , TS2Vec and Chronos-2"
+            "The Oceanographic sensors are sensors used to measure Temperature , Conductivity and Pressure in the sea , they collect high frequency data (CTD) which is prone to errors",
+            "I am building a machine learning pipeline to detect these errors and anamolies using Isolation Forests , TS2Vec and Chronos-2" ,
             "I am Comparing unsupervised methods, self-supervised learning (TS2Vec embeddings) and a foundation model (Chronos-2) for automated data quality assessment.",
             "Goal: find errors in high-frequency oceanographic time series automatically.",
         ],
@@ -103,7 +103,7 @@ WORK = [
         ],
     },
     {
-        "role": "Working Student, Data Engineering & Software Automation",
+        "role": "Working Student, Python Tool Development",
         "where": "Suzlon Energy, Rostock",
         "dates": "Mar 2025 - present",
         "bullets": [
