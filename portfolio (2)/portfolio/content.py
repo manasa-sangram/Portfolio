@@ -169,7 +169,7 @@ LOOKBOOK_MORE_ME = [
     {"file": "munich.jpg", "caption": "Munich 2025"},
     {"file": "host2.jpg", "caption": "I like hosting events"},
     {"file": "locking.jpg", "caption": " Dance club"},
-    {"file": "dance.JPG", "caption": "My dance floor"},
+    {"file": "dance.jpg", "caption": "My dance floor"},
 ]
 LOOKBOOK_NEW = [
     {"file": "kashmir.webp", "caption": "Kashmir trip 2024"},
